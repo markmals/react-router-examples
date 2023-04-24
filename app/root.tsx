@@ -16,7 +16,7 @@ export const links: LinksFunction = () => [
 ]
 
 export async function action() {
-    let contact = await createContact()
+    const contact = await createContact()
     return json({ contact })
 }
 

@@ -35,8 +35,6 @@ export async function getContact(id?: number) {
 
 export async function updateContact(id: number, updates: Partial<Contact>) {
     await fakeNetwork()
-    // let contact = await db.contact.findFirst({ where: { id } })
-    // if (!contact) throw new Error(`No contact found for ${id}`)
     return await db.contact.update({ where: { id }, data: updates })
 }
 

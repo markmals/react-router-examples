@@ -17,15 +17,15 @@ export async function loader({ params }: LoaderArgs) {
 }
 
 export async function action({ request, params }: ActionArgs) {
-    let formData = await request.formData()
-    let updates = Object.fromEntries(formData)
+    const formData = await request.formData()
+    const updates = Object.fromEntries(formData)
     await updateContact(parseInt(params.contactId!), updates)
     return redirect(`/contact/${params.contactId}`)
 }
 
 export default function EditContact() {
-    let { contact } = useLoaderData<typeof loader>()
-    let navigate = useNavigate()
+    const { contact } = useLoaderData<typeof loader>()
+    const navigate = useNavigate()
 
     return (
         <Form id="contact-form" method="post">

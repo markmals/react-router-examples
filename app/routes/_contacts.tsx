@@ -13,19 +13,19 @@ import { useEffect, useMemo } from "react"
 import { getContacts } from "~/lib/contacts.server"
 
 export async function loader({ request }: LoaderArgs) {
-    let url = new URL(request.url)
-    let q = url.searchParams.get("q") ?? undefined
-    let contacts = await getContacts(q)
+    const url = new URL(request.url)
+    const q = url.searchParams.get("q") ?? undefined
+    const contacts = await getContacts(q)
     return json({ contacts, q })
 }
 
 export default function ContactsLayout() {
-    let navigation = useNavigation()
-    let { contacts, q } = useLoaderData<typeof loader>()
-    let submit = useSubmit()
-    let navigate = useNavigate()
+    const navigation = useNavigation()
+    const { contacts, q } = useLoaderData<typeof loader>()
+    const submit = useSubmit()
+    const navigate = useNavigate()
 
-    let searching = useMemo(
+    const searching = useMemo(
         () => navigation.location && new URLSearchParams(navigation.location.search).has("q"),
         [navigation.location]
     )
@@ -54,7 +54,7 @@ export default function ContactsLayout() {
                                     navigate("/")
                                     return
                                 }
-                                let isFirstSearch = q == null
+                                const isFirstSearch = q === null
                                 submit(event.currentTarget.form, { replace: !isFirstSearch })
                             }}
                             placeholder="Search"
