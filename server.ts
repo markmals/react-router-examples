@@ -1,14 +1,17 @@
 import send from "@fastify/send"
 import { createRequestHandler } from "@mcansh/remix-raw-http"
-import { stat } from "fs/promises"
-import { createServer } from "http"
-import { join } from "path"
+import type { PathLike } from "node:fs"
+import { stat } from "node:fs/promises"
+import type { IncomingMessage } from "node:http"
+import { createServer } from "node:http"
+import { join } from "node:path"
 
+import type { ServerBuild } from "@remix-run/node"
 import * as serverBuild from "./build/index.js"
 
 const MODE = process.env.NODE_ENV
 
-async function checkFileExists(path) {
+async function checkFileExists(path: PathLike) {
     try {
         const stats = await stat(path)
         return stats.isFile()
@@ -17,8 +20,8 @@ async function checkFileExists(path) {
     }
 }
 
-async function serveFile(request) {
-    let fileURL = request.url
+async function serveFile(request: IncomingMessage) {
+    let fileURL = request.url!
 
     // Workaround for HMR
     if (fileURL.includes("?")) {
@@ -33,7 +36,7 @@ async function serveFile(request) {
         return undefined
     }
 
-    const isBuildAsset = request.url.startsWith("/build")
+    const isBuildAsset = request.url!.startsWith("/build")
 
     return send(request, filePath, {
         immutable: MODE === "production" && isBuildAsset,
@@ -47,7 +50,10 @@ const server = createServer(async (request, response) => {
         if (fileStream) {
             return fileStream.pipe(response)
         }
-        createRequestHandler({ build: serverBuild, mode: MODE })(request, response)
+        createRequestHandler({ build: serverBuild as any as ServerBuild, mode: MODE })(
+            request,
+            response
+        )
     } catch (error) {
         console.error(error)
     }

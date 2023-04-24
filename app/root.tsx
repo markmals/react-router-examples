@@ -1,8 +1,8 @@
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react"
+import styles from "./index.css"
 import { createContact } from "./lib/contacts.server"
-import styles from "./styles/index.css"
 
 export const meta: V2_MetaFunction = () => [
     { charSet: "utf-8" },

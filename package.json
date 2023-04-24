@@ -3,14 +3,14 @@
     "sideEffects": false,
     "type": "module",
     "prisma": {
-        "seed": "vite-node prisma/seed.ts"
+        "seed": "node --loader tsx prisma/seed.ts"
     },
     "scripts": {
-        "build": "remix build",
         "dev": "npm-run-all build --parallel \"dev:*\"",
-        "dev:node": "cross-env NODE_ENV=development node --watch --require dotenv/config ./server.js",
+        "dev:node": "cross-env NODE_ENV=development node --loader tsx --watch --require dotenv/config ./server.ts",
         "dev:remix": "remix dev",
-        "start": "cross-env NODE_ENV=production node ./server.js",
+        "build": "remix build",
+        "start": "cross-env NODE_ENV=production node --loader tsx ./server.ts",
         "typecheck": "tsc"
     },
     "dependencies": {
@@ -31,6 +31,7 @@
     "devDependencies": {
         "@remix-run/dev": "^1.15.0",
         "@remix-run/eslint-config": "^1.15.0",
+        "@types/node": "^18.16.0",
         "@types/react": "^18.0.25",
         "@types/react-dom": "^18.0.8",
         "@types/sort-by": "^1.2.0",
@@ -38,8 +39,8 @@
         "eslint": "^8.27.0",
         "npm-run-all": "^4.1.5",
         "prisma": "^4.13.0",
-        "typescript": "^5.0.0",
-        "vite-node": "^0.30.1"
+        "tsx": "^3.12.6",
+        "typescript": "^5.0.0"
     },
     "engines": {
         "node": ">=18"
