@@ -9,7 +9,7 @@ import {
     useNavigation,
     useSubmit,
 } from "@remix-run/react"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { getContacts } from "~/lib/contacts.server"
 
 export async function loader({ request }: LoaderArgs) {
@@ -25,7 +25,10 @@ export default function ContactsLayout() {
     let submit = useSubmit()
     let navigate = useNavigate()
 
-    let searching = navigation.location && new URLSearchParams(navigation.location.search).has("q")
+    let searching = useMemo(
+        () => navigation.location && new URLSearchParams(navigation.location.search).has("q"),
+        [navigation.location]
+    )
 
     useEffect(() => {
         if (document) {

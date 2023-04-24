@@ -1,6 +1,7 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Form, useFetcher, useLoaderData } from "@remix-run/react"
+import { useMemo } from "react"
 import { getContact, updateContact } from "~/lib/contacts.server"
 
 export async function loader({ params }: LoaderArgs) {
@@ -25,7 +26,7 @@ export async function action({ request, params }: ActionArgs) {
 
 export default function ViewContact() {
     const { contact } = useLoaderData<typeof loader>()
-    let hasAvatar = !!contact.avatar
+    const hasAvatar = useMemo(() => !!contact.avatar, [contact.avatar])
 
     return (
         <div id="contact">
@@ -91,15 +92,19 @@ export default function ViewContact() {
     )
 }
 
-function Favorite({ favorite }: { favorite: boolean }) {
-    const fetcher = useFetcher()
+function Favorite({ favorite: initialFavorite }: { favorite: boolean }) {
+    const { Form, formData } = useFetcher()
 
-    if (fetcher.formData) {
-        favorite = fetcher.formData.get("favorite") === "true"
-    }
+    const favorite = useMemo(() => {
+        if (formData) {
+            return formData.get("favorite") === "true"
+        }
+
+        return initialFavorite
+    }, [formData, initialFavorite])
 
     return (
-        <fetcher.Form method="post">
+        <Form method="post">
             <button
                 aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
                 name="favorite"
@@ -107,6 +112,6 @@ function Favorite({ favorite }: { favorite: boolean }) {
             >
                 {favorite ? "★" : "☆"}
             </button>
-        </fetcher.Form>
+        </Form>
     )
 }
