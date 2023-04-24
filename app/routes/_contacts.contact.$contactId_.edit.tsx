@@ -47,7 +47,7 @@ export default function EditContact() {
                 />
             </p>
             <label>
-                <span>mastodon</span>
+                <span>Mastodon</span>
                 <input
                     defaultValue={contact.mastodon ?? undefined}
                     name="mastodon"
