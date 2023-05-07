@@ -51,7 +51,7 @@ export default function EditContact() {
                 <input
                     defaultValue={contact.mastodon ?? undefined}
                     name="mastodon"
-                    placeholder="@jack"
+                    placeholder="@Gargron@mastodon.social"
                     type="text"
                 />
             </label>
