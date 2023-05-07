@@ -19,9 +19,11 @@ export async function loader({ params }: LoaderArgs) {
 
 export async function action({ request, params }: ActionArgs) {
     const formData = await request.formData()
-    return updateContact(parseInt(params.contactId!), {
-        favorite: formData.get("favorite") === "true",
-    })
+    return json(
+        updateContact(parseInt(params.contactId!), {
+            favorite: formData.get("favorite") === "true",
+        })
+    )
 }
 
 export default function ViewContact() {
