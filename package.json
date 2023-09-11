@@ -40,7 +40,10 @@
         "tsx": "^3.12.7",
         "typescript": "^5.0.4"
     },
-    "engines": {
-        "node": ">=18"
+    "prettier": {
+        "printWidth": 100,
+        "tabWidth": 4,
+        "semi": false,
+        "arrowParens": "avoid"
     }
 }
