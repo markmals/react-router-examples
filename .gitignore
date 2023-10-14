@@ -1,12 +1,12 @@
 **/.DS_Store
 
-node_modules
+**/node_modules
 
-.cache
-.env
-.output
+**/.cache
+**/.env
+**/.output
 
-/build/
-/public/build
+**/build/
+**/public/build
 
 **/*.db
