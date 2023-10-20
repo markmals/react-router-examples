@@ -15,7 +15,7 @@ import {
     useSubmit,
 } from "@remix-run/react"
 import { useEffect } from "react"
-import styles from "./index.css"
+import styles from "./index.css?url"
 import { createContact, getContacts } from "./lib/contacts.server"
 
 export const meta: MetaFunction = () => [
