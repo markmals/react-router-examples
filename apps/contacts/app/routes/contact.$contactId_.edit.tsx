@@ -1,20 +1,9 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
-import { json, redirect } from "@remix-run/node"
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { redirect } from "@remix-run/node"
 import { Form, useLoaderData, useNavigate } from "@remix-run/react"
-import { getContact, updateContact } from "~/lib/contacts.server"
+import { updateContact } from "~/lib/contacts.server"
 
-export async function loader({ params }: LoaderFunctionArgs) {
-    const contact = await getContact(parseInt(params.contactId!))
-
-    if (!contact) {
-        throw new Response("", {
-            status: 404,
-            statusText: "Not Found",
-        })
-    }
-
-    return json({ contact })
-}
+export { loader } from "./contact.$contactId"
 
 export async function action({ request, params }: ActionFunctionArgs) {
     const formData = await request.formData()
