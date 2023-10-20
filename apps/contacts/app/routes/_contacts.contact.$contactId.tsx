@@ -1,10 +1,10 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node"
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Form, useFetcher, useLoaderData } from "@remix-run/react"
 import { useMemo } from "react"
 import { getContact, updateContact } from "~/lib/contacts.server"
 
-export async function loader({ params }: LoaderArgs) {
+export async function loader({ params }: LoaderFunctionArgs) {
     const contact = await getContact(parseInt(params.contactId!))
 
     if (!contact) {
@@ -17,7 +17,7 @@ export async function loader({ params }: LoaderArgs) {
     return json({ contact })
 }
 
-export async function action({ request, params }: ActionArgs) {
+export async function action({ request, params }: ActionFunctionArgs) {
     const formData = await request.formData()
     return json(
         await updateContact(parseInt(params.contactId!), {

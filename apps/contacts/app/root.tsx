@@ -1,10 +1,10 @@
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/node"
+import type { LinksFunction, MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react"
 import styles from "./index.css"
 import { createContact } from "./lib/contacts.server"
 
-export const meta: V2_MetaFunction = () => [
+export const meta: MetaFunction = () => [
     { charSet: "utf-8" },
     { title: "Remix Contacts" },
     { name: "viewport", content: "width=device-width, initial-scale=1" },

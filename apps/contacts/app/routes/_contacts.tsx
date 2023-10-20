@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node"
+import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import {
     Form,
@@ -12,7 +12,7 @@ import {
 import { useEffect, useMemo } from "react"
 import { getContacts } from "~/lib/contacts.server"
 
-export async function loader({ request }: LoaderArgs) {
+export async function loader({ request }: LoaderFunctionArgs) {
     const url = new URL(request.url)
     const q = url.searchParams.get("q") ?? undefined
     const contacts = await getContacts(q)

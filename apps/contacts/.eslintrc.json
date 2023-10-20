@@ -11,7 +11,8 @@
             "files": ["*"],
             "rules": {
                 "react/jsx-sort-props": "warn",
-                "react/react-in-jsx-scope": "off"
+                "react/react-in-jsx-scope": "off",
+                "@typescript-eslint/no-non-null-assertion": "off"
             }
         }
     ]

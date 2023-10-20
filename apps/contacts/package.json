@@ -6,20 +6,18 @@
         "seed": "tsx prisma/seed.ts"
     },
     "scripts": {
-        "dev": "remix dev --no-restart -c 'tsx server.ts'",
+        "dev": "remix dev",
         "build": "remix build",
-        "start": "cross-env NODE_ENV=production tsx server.ts",
+        "start": "remix-serve ./build/index.js",
         "format": "prettier --write .",
         "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
         "typecheck": "tsc"
     },
     "dependencies": {
-        "@fastify/send": "^2.1.0",
-        "@mcansh/remix-raw-http": "^0.2.1",
         "@prisma/client": "^4.13.0",
-        "@remix-run/node": "^1.16.0",
-        "@remix-run/react": "^1.16.0",
-        "cross-env": "^7.0.3",
+        "@remix-run/node": "2.1.0",
+        "@remix-run/react": "2.1.0",
+        "@remix-run/serve": "^2.1.0",
         "isbot": "^3.6.10",
         "match-sorter": "^6.3.1",
         "react": "^18.2.0",
@@ -27,18 +25,16 @@
         "sort-by": "^1.2.0"
     },
     "devDependencies": {
-        "@remix-run/dev": "^1.16.0",
-        "@remix-run/eslint-config": "^1.16.0",
+        "@remix-run/dev": "2.1.0",
+        "@remix-run/eslint-config": "2.1.0",
         "@types/node": "^18.16.5",
         "@types/react": "^18.2.6",
         "@types/react-dom": "^18.2.4",
         "@types/sort-by": "^1.2.0",
-        "chokidar": "^3.5.3",
-        "dotenv": "^16.0.3",
-        "eslint": "^8.40.0",
-        "prisma": "^4.13.0",
-        "tsx": "^3.12.7",
-        "typescript": "^5.0.4"
+        "eslint": "^8.51.0",
+        "prisma": "^5.4.2",
+        "tsx": "^3.14.0",
+        "typescript": "^5.2.2"
     },
     "prettier": {
         "printWidth": 100,

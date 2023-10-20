@@ -1,8 +1,8 @@
-import type { ActionArgs } from "@remix-run/node"
+import type { ActionFunctionArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { deleteContact } from "~/lib/contacts.server"
 
-export async function action({ params }: ActionArgs) {
+export async function action({ params }: ActionFunctionArgs) {
     await deleteContact(parseInt(params.contactId!))
     return redirect("/")
 }
