@@ -1,9 +1,9 @@
-export default function Index() {
+export default function Component() {
     return (
         <p id="zero-state">
-            This is a demo for Remix.
+            This is a demo for React Router.
             <br />
-            Check out <a href="https://remix.run/docs/en/main">the docs at remix.run/docs</a>.
+            Check out <a href="https://reactrouter.com/home">the docs at reactrouter.com</a>.
         </p>
-    )
+    );
 }

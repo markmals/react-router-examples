@@ -1,23 +1,30 @@
 {
-    "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": [
+        ".react-router/types/**/*",
+        "app/**/*",
+        "app/**/.server/**/*",
+        "app/**/.client/**/*",
+        "./db-bootstrap.plugin.ts"
+    ],
     "compilerOptions": {
-        "lib": ["DOM", "DOM.Iterable", "ESNext"],
-        "isolatedModules": true,
-        "esModuleInterop": true,
-        "jsx": "react-jsx",
-        "moduleResolution": "bundler",
-        "module": "ESNext",
-        "resolveJsonModule": true,
-        "target": "ESNext",
+        "composite": true,
         "strict": true,
-        "allowJs": true,
-        "forceConsistentCasingInFileNames": true,
+        "lib": ["DOM", "DOM.Iterable", "ES2022"],
+        "types": ["node", "vite/client"],
+        "target": "ES2022",
+        "module": "ES2022",
+        "moduleResolution": "bundler",
+        "jsx": "react-jsx",
         "baseUrl": ".",
+        "rootDirs": [".", "./.react-router/types"],
         "paths": {
             "~/*": ["./app/*"]
         },
-
-        // Remix takes care of building everything in `remix build`.
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "checkJs": true,
+        "verbatimModuleSyntax": true,
+        "skipLibCheck": true,
         "noEmit": true
     }
 }

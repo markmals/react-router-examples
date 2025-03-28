@@ -1,20 +1,25 @@
-import type { ActionFunctionArgs } from "@remix-run/node"
-import { redirect } from "@remix-run/node"
-import { Form, useLoaderData, useNavigate } from "@remix-run/react"
-import { updateContact } from "~/lib/contacts.server"
+import { Form, redirect, useNavigate } from "react-router";
+import type { Route } from "./+types/contact.$contactId_.edit";
+import { fakeNetwork, updateContact } from "~/lib/contacts.server";
 
-export { loader } from "./contact.$contactId"
-
-export async function action({ request, params }: ActionFunctionArgs) {
-    const formData = await request.formData()
-    const updates = Object.fromEntries(formData)
-    await updateContact(parseInt(params.contactId!), updates)
-    return redirect(`/contact/${params.contactId}`)
+export async function loader({ params }: Route.LoaderArgs) {
+    // Since we're being smart and using `matches` in the component instead of,
+    // `getContact()` here we don't see the loading states, so we have to fake
+    // the network latency dirctly in this loader.
+    await fakeNetwork(`contact:${params.contactId}`);
+    return null;
 }
 
-export default function EditContact() {
-    const { contact } = useLoaderData<typeof loader>()
-    const navigate = useNavigate()
+export async function action({ request, params }: Route.ActionArgs) {
+    const formData = await request.formData();
+    const updates = Object.fromEntries(formData);
+    await updateContact(parseInt(params.contactId), updates);
+    return redirect(`/contact/${params.contactId}`);
+}
+
+export default function Component({ matches, params }: Route.ComponentProps) {
+    const contact = matches[0].data.contacts.find(c => c.id === parseInt(params.contactId))!;
+    const navigate = useNavigate();
 
     return (
         <Form id="contact-form" method="post">
@@ -36,11 +41,11 @@ export default function EditContact() {
                 />
             </p>
             <label>
-                <span>Mastodon</span>
+                <span>Bluesky</span>
                 <input
-                    defaultValue={contact.mastodon ?? undefined}
-                    name="mastodon"
-                    placeholder="@Gargron@mastodon.social"
+                    defaultValue={contact.bsky ?? undefined}
+                    name="bsky"
+                    placeholder="@jay.bsky.team"
                     type="text"
                 />
             </label>
@@ -65,5 +70,5 @@ export default function EditContact() {
                 </button>
             </p>
         </Form>
-    )
+    );
 }

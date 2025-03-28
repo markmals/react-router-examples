@@ -1,33 +1,25 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
-import { json } from "@remix-run/node"
-import { Form, useFetcher, useLoaderData } from "@remix-run/react"
-import { getContact, updateContact } from "~/lib/contacts.server"
+import { Form, useFetcher } from "react-router";
+import type { Route } from "./+types/contact.$contactId";
+import { fakeNetwork, updateContact } from "~/lib/contacts.server";
 
-export async function loader({ params }: LoaderFunctionArgs) {
-    const contact = await getContact(parseInt(params.contactId!))
-
-    if (!contact) {
-        throw new Response("", {
-            status: 404,
-            statusText: "Not Found",
-        })
-    }
-
-    return json({ contact })
+export async function loader({ params }: Route.LoaderArgs) {
+    // Since we're being smart and using `matches` in the component instead of,
+    // `getContact()` here we don't see the loading states, so we have to fake
+    // the network latency dirctly in this loader.
+    await fakeNetwork(`contact:${params.contactId}`);
+    return null;
 }
 
-export async function action({ request, params }: ActionFunctionArgs) {
-    const formData = await request.formData()
-    return json(
-        await updateContact(parseInt(params.contactId!), {
-            favorite: formData.get("favorite") === "true",
-        })
-    )
+export async function action({ request, params }: Route.ActionArgs) {
+    const formData = await request.formData();
+    return await updateContact(parseInt(params.contactId), {
+        favorite: formData.get("favorite") === "true",
+    });
 }
 
-export default function ViewContact() {
-    const { contact } = useLoaderData<typeof loader>()
-    const hasAvatar = !!contact.avatar
+export default function Component({ matches, params }: Route.ComponentProps) {
+    const contact = matches[0].data.contacts.find(c => c.id === parseInt(params.contactId))!;
+    const hasAvatar = !!contact.avatar;
 
     return (
         <div id="contact">
@@ -55,17 +47,14 @@ export default function ViewContact() {
                     <Favorite favorite={contact.favorite!} />
                 </h1>
 
-                {contact.mastodon && (
+                {contact.bsky && (
                     <p>
                         <a
-                            href={`https://mastodon.social/${contact.mastodon.replace(
-                                "@mastodon.social",
-                                ""
-                            )}`}
+                            href={`https://bsky.app/profile/${contact.bsky}`}
                             rel="noreferrer"
                             target="_blank"
                         >
-                            {contact.mastodon}
+                            @{contact.bsky}
                         </a>
                     </p>
                 )}
@@ -81,7 +70,7 @@ export default function ViewContact() {
                         method="post"
                         onSubmit={event => {
                             if (!confirm("Please confirm you want to delete this record.")) {
-                                event.preventDefault()
+                                event.preventDefault();
                             }
                         }}
                     >
@@ -90,12 +79,12 @@ export default function ViewContact() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-function Favorite({ favorite: initialFavorite }: { favorite: boolean }) {
-    const { Form, formData } = useFetcher()
-    const favorite = formData ? formData.get("favorite") === "true" : initialFavorite
+function Favorite(props: { favorite: boolean }) {
+    const { Form, formData } = useFetcher();
+    const favorite = formData ? formData.get("favorite") === "true" : props.favorite;
 
     return (
         <Form method="post">
@@ -107,5 +96,5 @@ function Favorite({ favorite: initialFavorite }: { favorite: boolean }) {
                 {favorite ? "★" : "☆"}
             </button>
         </Form>
-    )
+    );
 }

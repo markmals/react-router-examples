@@ -1,12 +1,12 @@
-import type { ActionFunctionArgs } from "@remix-run/node"
-import { redirect } from "@remix-run/node"
-import { deleteContact } from "~/lib/contacts.server"
+import { deleteContact } from "~/lib/contacts.server";
+import type { Route } from "./+types/contact.$contactId_.destroy";
+import { redirect } from "react-router";
 
-export async function action({ params }: ActionFunctionArgs) {
-    await deleteContact(parseInt(params.contactId!))
-    return redirect("/")
+export async function action({ params }: Route.ActionArgs) {
+    await deleteContact(parseInt(params.contactId));
+    return redirect("/");
 }
 
 export function ErrorBoundary() {
-    return <div>Oops! There was an error.</div>
+    return <div>Oops! There was an error.</div>;
 }

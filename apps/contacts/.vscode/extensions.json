@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "christian-kohler.npm-intellisense",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "wayou.vscode-todo-highlight"
+    ]
+}
