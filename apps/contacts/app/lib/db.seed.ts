@@ -1,4 +1,4 @@
-import { Contact, db } from "~/lib/db";
+import { Contact, db } from "~/lib/db"
 
 const contacts = [
     {
@@ -36,16 +36,16 @@ const contacts = [
         avatar: "https://cdn.bsky.app/img/avatar/plain/did:plc:twegdcgytckr5cxm57gyruxa/bafkreidx3bmu6wprocniiyrpwnpwljky6rat7bjccxxoc66ncybhzt5qxu@jpeg",
         bsky: "ebey.bsky.social",
     },
-];
+]
 
 export async function seed() {
     try {
         await db.insert(Contact).values(contacts).onConflictDoUpdate({
             target: Contact.id,
             set: Contact,
-        });
+        })
     } catch (e) {
-        console.error(e);
+        console.error(e)
         // process.exit(1);
     }
 }

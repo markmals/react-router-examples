@@ -6,7 +6,7 @@
         "dev": "react-router dev",
         "build": "react-router build",
         "fmt": "biome format --write .",
-        "lint": "biome lint --write .",
+        "lint": "biome lint --write --unsafe .",
         "typecheck": "react-router typegen && tsc",
         "start": "react-router-serve ./build/server/index.js",
         "db:gui": "drizzle-kit studio",

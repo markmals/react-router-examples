@@ -1,6 +1,6 @@
-import { useEffect, type PropsWithChildren } from "react";
-import styles from "./index.css?url";
-import { createContact, getContacts } from "./lib/contacts.server";
+import { useEffect, type PropsWithChildren } from "react"
+import styles from "./index.css?url"
+import { createContact, getContacts } from "./lib/contacts.server"
 import {
     Form,
     Links,
@@ -12,10 +12,10 @@ import {
     useNavigate,
     useNavigation,
     useSubmit,
-} from "react-router";
-import type { Route } from "./+types/root";
+} from "react-router"
+import type { Route } from "./+types/root"
 
-export const meta: Route.MetaFunction = () => [{ title: "React Router Contacts" }];
+export const meta: Route.MetaFunction = () => [{ title: "React Router Contacts" }]
 
 export const links: Route.LinksFunction = () => [
     { rel: "stylesheet", href: styles },
@@ -31,18 +31,18 @@ export const links: Route.LinksFunction = () => [
         type: "image/png",
         media: "(prefers-color-scheme: dark)",
     },
-];
+]
 
 export async function loader({ request }: Route.LoaderArgs) {
-    const url = new URL(request.url);
-    const q = url.searchParams.get("q") ?? undefined;
-    const contacts = await getContacts(q);
-    return { contacts, q };
+    const url = new URL(request.url)
+    const q = url.searchParams.get("q") ?? undefined
+    const contacts = await getContacts(q)
+    return { contacts, q }
 }
 
 export async function action() {
-    const contact = await createContact();
-    return { contact };
+    const contact = await createContact()
+    return { contact }
 }
 
 export function Layout({ children }: PropsWithChildren) {
@@ -60,32 +60,32 @@ export function Layout({ children }: PropsWithChildren) {
                 <Scripts />
             </body>
         </html>
-    );
+    )
 }
 
 export default function Component({ loaderData }: Route.ComponentProps) {
-    const navigation = useNavigation();
-    const { contacts, q } = loaderData;
+    const navigation = useNavigation()
+    const { contacts, q } = loaderData
 
     const searching = Boolean(
         navigation.location && new URLSearchParams(navigation.location.search).has("q"),
-    );
+    )
 
-    const submit = useSubmit();
-    const navigate = useNavigate();
+    const submit = useSubmit()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (document) {
-            document.querySelector<HTMLInputElement>("#q")!.value = q ?? "";
+            document.querySelector<HTMLInputElement>("#q")!.value = q ?? ""
         }
-    }, [q]);
+    }, [q])
 
     return (
         <div id="root">
             <div id="sidebar">
                 <h1>React Router Contacts</h1>
                 <div>
-                    <Form id="search-form" role="search">
+                    <Form id="search-form">
                         <input
                             aria-label="Search contacts"
                             className={searching ? "loading" : ""}
@@ -95,19 +95,19 @@ export default function Component({ loaderData }: Route.ComponentProps) {
                             onInput={event => {
                                 // Remove empty query params when value is empty
                                 if (!event.currentTarget.value) {
-                                    navigate("/");
-                                    return;
+                                    navigate("/")
+                                    return
                                 }
-                                const isFirstSearch = q === undefined;
+                                const isFirstSearch = q === undefined
                                 submit(event.currentTarget.form, {
                                     replace: !isFirstSearch,
-                                });
+                                })
                             }}
                             placeholder="Search"
                             type="search"
                         />
                         <div aria-hidden hidden={!searching} id="search-spinner" />
-                        <div aria-live="polite" className="sr-only"></div>
+                        <div aria-live="polite" className="sr-only" />
                     </Form>
                     <Form method="post">
                         <button type="submit">New</button>
@@ -147,5 +147,5 @@ export default function Component({ loaderData }: Route.ComponentProps) {
                 <Outlet />
             </div>
         </div>
-    );
+    )
 }
